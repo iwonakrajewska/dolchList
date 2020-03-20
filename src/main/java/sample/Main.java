@@ -21,92 +21,94 @@ import javafx.stage.StageStyle;
 
 public class Main extends Application {
 
-    DolchListConfig dl = new DolchListConfig();
+	public static void main(String[] args) {
+		launch(args);
+	}
 
-    public static void main(String[] args) {
-        launch(args);
-    }
+	@Override
+	public void start(Stage primaryStage) {
+		
+		DolchListConfig dolchListConfig = new DolchListConfig();
 
-    @Override
-    public void start(Stage primaryStage) {
-        try {
-            BorderPane root = new BorderPane();
-            Scene scene = new Scene(root, dl.getSizeX(), dl.getSizeY());
+		try {
+			BorderPane root = new BorderPane();
+			Scene scene = new Scene(root, dolchListConfig.getSizeX(), dolchListConfig.getSizeY());
 
-            Pane pane = new Pane();
-            Text text1 = new Text("");
-            Text text2 = new Text("");
-            text1.setX(200);
-            text1.setY(200);
-            text1.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 100));
-            text2.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 100));
-            text2.setX(200);
-            text2.setY(500);
-            pane.getChildren().add(text1);
-            pane.getChildren().add(text2);
+			Pane pane = new Pane();
+			Text text1 = new Text("No mp3 file found in:");
+			Text text2 = new Text(dolchListConfig.getSoundsFolder());
+			text1.setX(200);
+			text1.setY(200);
+			text1.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 100));
+			text2.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 100));
+			text2.setX(200);
+			text2.setY(500);
+			pane.getChildren().add(text1);
+			pane.getChildren().add(text2);
 
-            Task<Void> task = new Task<Void>() {
-                String a = "";
-                String b = "";
+			Task<Void> task = new Task<Void>() {
+				String a = "";
+				String b = "";
 
-                @Override
-                public Void call() throws Exception {
-                    int i = 0;
-                    String fileUrl;
-                    File audioFile;
-                    Media audio;
-                    MediaPlayer audioPlayer = null;
-                    DolchListElement w = dl.pickRandomWord();
+				@Override
+				public Void call() throws Exception {
+					int i = 0;
+					String fileUrl;
+					File audioFile;
+					Media audio;
+					MediaPlayer audioPlayer = null;
+					DolchListElement w = dolchListConfig.pickRandomWord();
 
-                    while (true) {
-                        if (i == 0) {
-                            a = "";
-                            b = "";
-                            w = dl.pickRandomWord();
-                            fileUrl = w.getFilePath();
-                            audioFile = new File(fileUrl);
-                            audio = new Media(audioFile.toURI().toString());
-                            audioPlayer = new MediaPlayer(audio);
+					while (true) {
+						if (i == 0) {
+							a = "";
+							b = "";
+							w = dolchListConfig.pickRandomWord();
+							fileUrl = w.getFilePath();
+							audioFile = new File(fileUrl);
+							audio = new Media(audioFile.toURI().toString());
+							audioPlayer = new MediaPlayer(audio);
 
-                            a = w.getWord();
-                            audioPlayer.play();
-                        }
+							a = w.getWord();
+							audioPlayer.play();
+						}
 
-                        if (i == 1) {
-                            audioPlayer.stop();
-                            b = w.getWord();
-                            audioPlayer.play();
-                        }
+						if (i == 1) {
+							audioPlayer.stop();
+							b = w.getWord();
+							audioPlayer.play();
+						}
 
-                        if (i == 2) {
-                            audioPlayer.stop();
-                            i = 0;
-                            Platform.exit();
-                            System.exit(0);
-                        }
+						if (i == 2) {
+							audioPlayer.stop();
+							i = 0;
+							Platform.exit();
+							System.exit(0);
+						}
 
-                        Platform.runLater(() -> {
-                            text1.setText(a);
-                            text2.setText(b);
-                        });
+						Platform.runLater(() -> {
+							text1.setText(a);
+							text2.setText(b);
+						});
 
-                        i++;
-                        Thread.sleep(1000);
-                    }
-                }
-            };
-            Thread th = new Thread(task);
-            //  th.setDaemon(true);
-            th.start();
-
-            root.setCenter(pane);
-            primaryStage.initStyle(StageStyle.UNDECORATED);
-            primaryStage.setResizable(true);
-            primaryStage.setScene(scene);
-            primaryStage.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+						i++;
+						Thread.sleep(1000);
+					}
+				}
+			};
+			Thread th = new Thread(task);
+			// th.setDaemon(true);
+			if (dolchListConfig.pickRandomWord() != null) {
+				th.start();
+			}
+			root.setCenter(pane);
+			primaryStage.initStyle(StageStyle.UNDECORATED);
+			primaryStage.setResizable(true);
+			primaryStage.setScene(scene);
+			primaryStage.show();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 }

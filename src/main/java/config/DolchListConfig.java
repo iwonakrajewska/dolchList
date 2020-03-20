@@ -19,56 +19,64 @@ import java.util.stream.Stream;
 
 public class DolchListConfig {
 
-    private List<DolchListElement> dolchList = new ArrayList<>();
-    private Random randomGenerator = new Random();
-    private Integer sizeX;
-    private Integer sizeY;
-    private String soundsFolder;
+	private List<DolchListElement> dolchList = new ArrayList<>();
+	private Random randomGenerator = new Random();
+	private Integer sizeX;
+	private Integer sizeY;
+	private String soundsFolder;
 
-    public DolchListConfig() {
-        readProperties();
-        buildDolchList();
-    }
+	public DolchListConfig() {
+		readProperties();
+		buildDolchList();
+	}
 
-    private void readProperties() {
-        try (InputStream input = getClass().getClassLoader().getResourceAsStream("DolchList.properties")) {
-            Properties prop = new Properties();
-            if (input == null) {
-                System.out.println("Sorry, unable to find DolchList.properties");
-                return;
-            }
-            prop.load(input);
-            sizeX = Integer.valueOf(prop.getProperty("scene.size.x"));
-            sizeY = Integer.valueOf(prop.getProperty("scene.size.y"));
-            soundsFolder = prop.getProperty("sound.files.folder");
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-    }
+	private void readProperties() {
+		try (InputStream input = getClass().getClassLoader().getResourceAsStream("DolchList.properties")) {
+			Properties prop = new Properties();
+			if (input == null) {
+				System.out.println("Sorry, unable to find DolchList.properties");
+				return;
+			}
+			prop.load(input);
+			sizeX = Integer.valueOf(prop.getProperty("scene.size.x"));
+			sizeY = Integer.valueOf(prop.getProperty("scene.size.y"));
+			soundsFolder = prop.getProperty("sound.files.folder");
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		}
+	}
 
-    private void buildDolchList() {
-        try (Stream<Path> walk = Files.walk(Paths.get(soundsFolder))) {
-            List<String> result = walk.map(x -> x.toString()).filter(f -> f.endsWith(".mp3")).collect(Collectors.toList());
-            for (String absoluteFile : result) {
-                String word = new File(absoluteFile).getName().replace(".mp3" ,"");
-                dolchList.add(new DolchListElement(word, absoluteFile));
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+	private void buildDolchList() {
+		try (Stream<Path> walk = Files.walk(Paths.get(soundsFolder))) {
+			List<String> result = walk.map(x -> x.toString()).filter(f -> f.endsWith(".mp3"))
+					.collect(Collectors.toList());
+			for (String absoluteFile : result) {
+				String word = new File(absoluteFile).getName().replace(".mp3", "");
+				dolchList.add(new DolchListElement(word, absoluteFile));
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
-    public DolchListElement pickRandomWord() {
-        int index = randomGenerator.nextInt(dolchList.size());
-        return dolchList.get(index);
-    }
+	public DolchListElement pickRandomWord() {
+		if (dolchList.isEmpty())
+			return null;
 
-    public Integer getSizeX() {
-        return sizeX;
-    }
+		int index = randomGenerator.nextInt(dolchList.size());
+		return dolchList.get(index);
+	}
 
-    public Integer getSizeY() {
-        return sizeY;
-    }
+	public Integer getSizeX() {
+		return sizeX;
+	}
+
+	public Integer getSizeY() {
+		return sizeY;
+	}
+
+	public String getSoundsFolder() {
+		return soundsFolder;
+	}
 
 }
