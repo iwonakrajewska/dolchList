@@ -1,8 +1,4 @@
-/*
- * Copyright (c) 2020 Mastercard. All rights reserved.
- */
-
-package config;
+package dolchlist.config;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

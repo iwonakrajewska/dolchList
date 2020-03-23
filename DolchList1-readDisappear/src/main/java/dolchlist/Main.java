@@ -1,9 +1,9 @@
-package sample;
+package dolchlist;
 
 import java.io.File;
 
-import config.DolchListConfig;
-import config.DolchListElement;
+import dolchlist.config.DolchListConfig;
+import dolchlist.config.DolchListElement;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
@@ -18,16 +18,22 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Main extends Application {
 
+	Logger logger = LoggerFactory.getLogger(Main.class);
+
 	public static void main(String[] args) {
+
 		launch(args);
 	}
 
 	@Override
 	public void start(Stage primaryStage) {
-		
+		logger.info("Starting DolchList1");
+
 		DolchListConfig dolchListConfig = new DolchListConfig();
 
 		try {
@@ -35,8 +41,8 @@ public class Main extends Application {
 			Scene scene = new Scene(root, dolchListConfig.getSizeX(), dolchListConfig.getSizeY());
 
 			Pane pane = new Pane();
-			Text text1 = new Text("No mp3 file found in:");
-			Text text2 = new Text(dolchListConfig.getSoundsFolder());
+			Text text1 = new Text("");
+			Text text2 = new Text("");
 			text1.setX(200);
 			text1.setY(200);
 			text1.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 100));
@@ -53,6 +59,7 @@ public class Main extends Application {
 				@Override
 				public Void call() throws Exception {
 					int i = 0;
+					int currentIteration = 0;
 					String fileUrl;
 					File audioFile;
 					Media audio;
@@ -61,6 +68,7 @@ public class Main extends Application {
 
 					while (true) {
 						if (i == 0) {
+							currentIteration++;
 							a = "";
 							b = "";
 							w = dolchListConfig.pickRandomWord();
@@ -81,9 +89,11 @@ public class Main extends Application {
 
 						if (i == 2) {
 							audioPlayer.stop();
-							i = 0;
-							Platform.exit();
-							System.exit(0);
+							i = -1;
+							if (currentIteration >= dolchListConfig.getIterations()) {
+								Platform.exit();
+								System.exit(0);
+							} 
 						}
 
 						Platform.runLater(() -> {
@@ -100,6 +110,9 @@ public class Main extends Application {
 			// th.setDaemon(true);
 			if (dolchListConfig.pickRandomWord() != null) {
 				th.start();
+			} else {
+				text1.setText("No mp3 file found in:");
+				text2.setText(dolchListConfig.getSoundsFolder());
 			}
 			root.setCenter(pane);
 			primaryStage.initStyle(StageStyle.UNDECORATED);
