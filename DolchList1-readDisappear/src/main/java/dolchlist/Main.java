@@ -93,7 +93,7 @@ public class Main extends Application {
 							if (currentIteration >= dolchListConfig.getIterations()) {
 								Platform.exit();
 								System.exit(0);
-							} 
+							}
 						}
 
 						Platform.runLater(() -> {
@@ -119,6 +119,8 @@ public class Main extends Application {
 			primaryStage.setResizable(true);
 			primaryStage.setScene(scene);
 			primaryStage.show();
+			primaryStage.toFront();
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

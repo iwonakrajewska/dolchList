@@ -36,7 +36,7 @@ public class DolchListConfig {
 	private void readProperties() {
 		logger.info("loading properties");
 		
-		try (InputStream input = getClass().getClassLoader().getResourceAsStream("DolchList.properties")) {
+		try (InputStream input = getClass().getClassLoader().getResourceAsStream("application.properties")) {
 			Properties prop = new Properties();
 			if (input == null) {
 				System.out.println("Sorry, unable to find DolchList.properties");
