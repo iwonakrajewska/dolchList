@@ -2,6 +2,9 @@ package dolchlist;
 
 import java.io.File;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import dolchlist.config.DolchListConfig;
 import dolchlist.config.DolchListElement;
 import javafx.application.Application;
@@ -18,15 +21,12 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class Main extends Application {
 
-	Logger logger = LoggerFactory.getLogger(Main.class);
+	private static final Logger logger = LoggerFactory.getLogger(Main.class);
 
 	public static void main(String[] args) {
-
 		launch(args);
 	}
 
@@ -76,7 +76,7 @@ public class Main extends Application {
 							audioFile = new File(fileUrl);
 							audio = new Media(audioFile.toURI().toString());
 							audioPlayer = new MediaPlayer(audio);
-
+							logger.info("Playing: {}", w.getWord());
 							a = w.getWord();
 							audioPlayer.play();
 						}
@@ -91,6 +91,7 @@ public class Main extends Application {
 							audioPlayer.stop();
 							i = -1;
 							if (currentIteration >= dolchListConfig.getIterations()) {
+								logger.info("Iterations reached limit. Finish.");
 								Platform.exit();
 								System.exit(0);
 							}
@@ -111,6 +112,7 @@ public class Main extends Application {
 			if (dolchListConfig.pickRandomWord() != null) {
 				th.start();
 			} else {
+				logger.warn("No sound files found in {}", dolchListConfig.getSoundsFolder());
 				text1.setText("No mp3 file found in:");
 				text2.setText(dolchListConfig.getSoundsFolder());
 			}
@@ -120,9 +122,9 @@ public class Main extends Application {
 			primaryStage.setScene(scene);
 			primaryStage.show();
 			primaryStage.toFront();
-			
+
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error(e.getMessage(), e);
 		}
 	}
 

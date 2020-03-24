@@ -13,13 +13,13 @@ import java.util.Properties;
 import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import dolchlist.config.DolchListElement;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import dolchlist.Main;
 
 public class DolchListConfig {
-	private Logger logger = LoggerFactory.getLogger(Main.class);
+
+	private static final Logger logger = LoggerFactory.getLogger(DolchListConfig.class);
 
 	private List<DolchListElement> dolchList = new ArrayList<>();
 	private Random randomGenerator = new Random();
@@ -34,12 +34,12 @@ public class DolchListConfig {
 	}
 
 	private void readProperties() {
-		logger.info("loading properties");
-		
+		logger.info("Loading properties");
+
 		try (InputStream input = getClass().getClassLoader().getResourceAsStream("application.properties")) {
 			Properties prop = new Properties();
 			if (input == null) {
-				System.out.println("Sorry, unable to find DolchList.properties");
+				logger.error("Unable to find DolchList.properties");
 				return;
 			}
 			prop.load(input);
@@ -47,9 +47,9 @@ public class DolchListConfig {
 			sizeY = Integer.valueOf(prop.getProperty("scene.size.y"));
 			iterations = Integer.valueOf(prop.getProperty("iterations.number"));
 			soundsFolder = prop.getProperty("sound.files.folder");
+
 		} catch (IOException ex) {
-			ex.printStackTrace();
-			logger.error(ex.getMessage(),ex);
+			logger.error(ex.getMessage(), ex);
 		}
 	}
 
@@ -62,7 +62,7 @@ public class DolchListConfig {
 				dolchList.add(new DolchListElement(word, absoluteFile));
 			}
 		} catch (IOException e) {
-			e.printStackTrace();
+			logger.error(e.getMessage(), e);
 		}
 	}
 
