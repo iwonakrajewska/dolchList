@@ -120,6 +120,7 @@ public class Main extends Application {
 			primaryStage.initStyle(StageStyle.UNDECORATED);
 			primaryStage.setResizable(true);
 			primaryStage.setScene(scene);
+			//primaryStage.setFullScreen(true);
 			primaryStage.show();
 			primaryStage.requestFocus();
 			primaryStage.setAlwaysOnTop(true);
