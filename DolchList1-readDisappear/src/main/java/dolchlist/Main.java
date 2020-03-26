@@ -121,6 +121,8 @@ public class Main extends Application {
 			primaryStage.setResizable(true);
 			primaryStage.setScene(scene);
 			primaryStage.show();
+			primaryStage.requestFocus();
+			primaryStage.setAlwaysOnTop(true);
 			primaryStage.toFront();
 
 		} catch (Exception e) {
