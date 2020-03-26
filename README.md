@@ -8,7 +8,7 @@ DolchList1-readDisappear
 
 -	window pop up on schedule, 
 	
--	window should cover full screen including Start navigation bar (adjust screen size in DolchList.properties, inside jar)
+-	window should cover full screen including Start navigation bar (adjust screen size in application.properties, inside jar)
 	
 -	read random word from c:/tmp/DolchList-wordSound  (mp3 files)
 	
