@@ -121,11 +121,13 @@ public class Main extends Application {
 			primaryStage.setResizable(true);
 			primaryStage.setScene(scene);
 			//primaryStage.setFullScreen(true);
-			primaryStage.show();
 			primaryStage.requestFocus();
+			primaryStage.setAlwaysOnTop(false);
 			primaryStage.setAlwaysOnTop(true);
 			primaryStage.toFront();
+			primaryStage.show();
 
+            
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 		}

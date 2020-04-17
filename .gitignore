@@ -1,8 +1,8 @@
-DolchList1-readDisappear/target/
-!DolchList1-readDisappear/target/dolchList.jar
 
-DolchList1-readDisappear/.classpath
-DolchList1-readDisappear/.project
+.classpath
+.project
+.settings/
+dependency-reduced-pom.xml
 
-DolchList1-readDisappear/.settings/
-DolchList1-readDisappear/dependency-reduced-pom.xml
+target/
+!target/*.jar
