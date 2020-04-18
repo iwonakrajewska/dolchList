@@ -4,5 +4,7 @@
 .settings/
 dependency-reduced-pom.xml
 
+target
+!DolchList1-readDisappear/target/dolchList1-readDisappear.jar
 
-!/DolchList1-readDisappear/target/dolchList1-readDisappear.jar
+
