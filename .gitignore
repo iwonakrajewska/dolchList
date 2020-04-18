@@ -4,7 +4,7 @@
 .settings/
 dependency-reduced-pom.xml
 
-
+target
 !DolchList1-readDisappear/target/dolchList1-readDisappear.jar
 !DolchList2-clickWord/target/dolchList2-clickWord.jar
 
