@@ -2,8 +2,8 @@
 Force Junior infant to learn words by covering screen
 ### Installation
 ```sh
-1) unpack DolchList-wordSound.zip to c:/tmp/DolchList-wordSound
-2) Create WindowsTaskScheduler for dolchList.jar file (use absolute path),
+1) Unpack DolchList-wordSound.zip to c:/tmp/DolchList-wordSound
+2) Create WindowsTaskScheduler for target/dolchList-xxx.jar file (use absolute path),
    see: https://stackoverflow.com/questions/4249542/run-a-task-every-x-minutes-with-windows-task-scheduler
 ```
 # DolchList1-readDisappear 
