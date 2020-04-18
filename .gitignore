@@ -5,4 +5,4 @@
 dependency-reduced-pom.xml
 
 target/
-!target/*.jar
+!/DolchList1-readDisappear/target/dolchList1-readDisappear.jar
