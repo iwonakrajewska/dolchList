@@ -53,7 +53,7 @@ public class ButtonConfig {
         Consumer<String> triggerExit = text -> {
             logger.info("Triggering exit after " + text);
             try {
-                Thread.sleep(1000);
+                Thread.sleep(500);
             } catch (InterruptedException e1) {
                 logger.error("Unhandled exception caught", e1);
             }
@@ -80,7 +80,7 @@ public class ButtonConfig {
                         @Override
                         public void run() {
                             mediaplayer.stop();
-                            String fileUrl2 = propertyLoader.getSoundsFolder() + "/helper/correct.mp3";
+                            String fileUrl2 = propertyLoader.getSoundsFolder() + "/../helper/correct.mp3";
                             File audioFile2 = new File(fileUrl2);
                             Media audio2 = new Media(audioFile2.toURI().toString());
                             mediaplayer = new MediaPlayer(audio2);

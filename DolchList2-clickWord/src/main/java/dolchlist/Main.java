@@ -15,6 +15,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -55,7 +57,7 @@ public class Main extends Application {
 
             readInitialInstruction();
 
-            //primaryStage.initStyle(StageStyle.UNDECORATED);
+            primaryStage.initStyle(StageStyle.UNDECORATED);
             primaryStage.setResizable(true);
             //primaryStage.setResizable(false);
             primaryStage.setScene(scene);
@@ -72,7 +74,7 @@ public class Main extends Application {
     }
 
     private void readInitialInstruction() {
-        String fileUrl = propertyLoader.getSoundsFolder() + "/helper/find.mp3";
+        String fileUrl = propertyLoader.getSoundsFolder() + "/../helper/find.mp3";
         File audioFile = new File(fileUrl);
         Media audio = new Media(audioFile.toURI().toString());
         mediaplayer = new MediaPlayer(audio);
