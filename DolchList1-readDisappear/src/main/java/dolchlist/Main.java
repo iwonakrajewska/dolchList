@@ -43,12 +43,12 @@ public class Main extends Application {
 			Pane pane = new Pane();
 			Text text1 = new Text("");
 			Text text2 = new Text("");
-			text1.setX(200);
-			text1.setY(200);
+			text1.setX(300);
+			text1.setY(400);
 			text1.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 100));
 			text2.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 100));
-			text2.setX(200);
-			text2.setY(500);
+			text2.setX(300);
+			text2.setY(700);
 			pane.getChildren().add(text1);
 			pane.getChildren().add(text2);
 
