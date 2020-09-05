@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <property resource="application.properties" />
+
+    <appender name="fileAppender" class="ch.qos.logback.core.FileAppender">
+        <file>${logging.file}</file>
+        <append>true</append>
+        <encoder>
+            <pattern>%d [%thread] %-5level  %logger{35} - %msg%n</pattern>
+        </encoder>
+    </appender>
+     
+    <root level="${logging.level}">
+        <appender-ref ref="fileAppender" />
+    </root>
+</configuration>
