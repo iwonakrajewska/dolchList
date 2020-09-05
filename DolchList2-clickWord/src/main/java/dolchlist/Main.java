@@ -1,5 +1,5 @@
 package dolchlist;
-
+ 
 import java.io.File;
 import java.util.List;
 
@@ -16,9 +16,11 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.event.EventHandler;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import javafx.scene.input.MouseEvent;
 
 public class Main extends Application {
 
@@ -67,7 +69,15 @@ public class Main extends Application {
             primaryStage.setAlwaysOnTop(true);
             primaryStage.toFront();
             primaryStage.show();
-
+            
+            scene.setOnMousePressed(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                	readInitialInstruction();
+                }
+            });
+            
+            
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
         }

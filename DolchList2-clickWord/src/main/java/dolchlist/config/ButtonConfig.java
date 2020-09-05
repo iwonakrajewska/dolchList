@@ -41,9 +41,9 @@ public class ButtonConfig {
         button1.setLayoutX(200);
         button1.setLayoutY(layoutY);
         button1.setText("word1");
-        button1.setMinWidth(500);
+        button1.setMinWidth(1000);
         //button1.setMaxWidth(500);
-        button1.setPrefWidth(500);
+        button1.setPrefWidth(1000);
         button1.setMinHeight(200);
         button1.setMaxHeight(200);
         button1.setPrefHeight(200);
