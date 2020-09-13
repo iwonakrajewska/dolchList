@@ -1,7 +1,3 @@
-/*
- * Copyright (c) 2020 Mastercard. All rights reserved.
- */
-
 package dolchlist.dto;
 
 import lombok.AllArgsConstructor;

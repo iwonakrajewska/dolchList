@@ -40,7 +40,7 @@ public class Word {
 
 		this.letterIndex = randomGenerator.nextInt(wordLength);
 		this.letterText = "" + wordToType.getWord().charAt(this.letterIndex);
-		LOGGER.info("Type letter '{}' at index {}", letterText, letterIndex);
+		LOGGER.info("Type letter '{}' at index {} for word: {}", new Object[] { letterText, letterIndex, wordToType.getWord() });
 	}
-	
+
 }

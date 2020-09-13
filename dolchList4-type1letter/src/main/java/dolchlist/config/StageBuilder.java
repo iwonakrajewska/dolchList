@@ -1,42 +1,27 @@
-/*
- * Copyright (c) 2020 Mastercard. All rights reserved.
- */
 
 package dolchlist.config;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import dolchlist.Main;
-import dolchlist.dto.ButtonElement;
-import dolchlist.dto.DolchListElement;
 import dolchlist.dto.InputTextElement;
 import dolchlist.dto.Word;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 
 public class StageBuilder {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(StageBuilder.class);
 	private static final double LAYOUT_X = 200.0;
 
-//	Map<Button, ButtonElement> buttonMap = new HashMap();
-//	private Random randomGenerator = new Random();
-//	private ButtonElement correctButton;
-//
 	private MediaPlayer mediaplayer;
 	private MediaPlayer mediaplayer2;
 
@@ -47,44 +32,15 @@ public class StageBuilder {
 		printPicture(pane, 600.0, word);
 	}
 
-	private void printLetterInputBoxes(Pane pane, Word word,  double layoutY) {
+	private void printLetterInputBoxes(Pane pane, Word word, double layoutY) {
 		int wordLength = word.getWordToType().getWord().length();
-		
-		InputTextElement input = new InputTextElement();
+
+		InputTextElement input = new InputTextElement(word);
 		for (int i = 0; i < wordLength; i++) {
-			double layoutX = 200*i + LAYOUT_X;
-			input.printInputText(word, i, pane, layoutX, layoutY);
+			double layoutX = 200 * i + LAYOUT_X;
+			input.printInputText(pane, i, layoutX, layoutY);
 		}
 	}
-
-//	public void addButton(Button button) {
-//		buttonMap.put(button, new ButtonElement(button));
-//	}
-//
-//	public void assign1CorrectWord(List<DolchListElement> element3words) {
-//		int indexForCorrect = randomGenerator.nextInt(buttonMap.size());
-//		int i = 0;
-//		for (Button b : buttonMap.keySet()) {
-//			DolchListElement word = element3words.get(i);
-//			ButtonElement buttonElement = buttonMap.get(b);
-//			buttonElement.getButton().setText(word.getWord());
-//			buttonElement.setDolchListElement(word);
-//
-//			if (i == indexForCorrect) {
-//				buttonElement.setCorrect(true);
-//				correctButton = buttonElement;
-//			}
-//			i++;
-//		}
-//	}
-//
-//	public ButtonElement getByButton(Button button) {
-//		return buttonMap.get(button);
-//	}
-//
-//	public ButtonElement getCorrectButton() {
-//		return correctButton;
-//	}
 
 	private void printInstruction(Pane pane, double layoutY) {
 		Label label1 = new Label("Type:  ");

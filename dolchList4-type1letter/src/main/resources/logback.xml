@@ -10,8 +10,15 @@
             <pattern>%d [%thread] %-5level  %logger{35} - %msg%n</pattern>
         </encoder>
     </appender>
+    
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>%d [%thread] %-5level  %logger{35} - %msg%n</Pattern>
+        </layout>
+    </appender>
      
     <root level="${logging.level}">
         <appender-ref ref="fileAppender" />
+         <appender-ref ref="CONSOLE" />
     </root>
 </configuration>

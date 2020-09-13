@@ -1,79 +1,104 @@
 package dolchlist.dto;
 
-import javafx.scene.control.TextInputDialog;
-import javafx.scene.layout.Pane;
+import java.io.File;
+import java.util.function.Consumer;
 
-import java.awt.Font;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import javafx.scene.control.Button;
+import javafx.application.Platform;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Pane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 
 public class InputTextElement {
 
-	// TextField t = new TextField("xx");
-	// TextInputDialog dialog = new TextInputDialog("walter");
+	private static final Logger LOGGER = LoggerFactory.getLogger(InputTextElement.class);
 
-	public InputTextElement() {
+	private Word selectedWord;
+
+	private MediaPlayer mediaplayer;
+
+	public InputTextElement(Word word) {
+		this.selectedWord = word;
 	}
-//		t.setText("" + word.getWordToType().getWord().charAt(index));
-//		
-//		
-//		
-//		
-//		 final Button button1 = new Button();
-//	        button1.setLayoutX(200);
-//	        button1.setLayoutY(layoutY);
-//	        button1.setText("word1");
-//	        button1.setMinWidth(1000);
-//	        //button1.setMaxWidth(500);
-//	        button1.setPrefWidth(1000);
-//	        button1.setMinHeight(200);
-//	        button1.setMaxHeight(200);
-//	        button1.setPrefHeight(200);
-//	        button1.setStyle("-fx-font-size: 10em;  -fx-font-family: Verdana; ");
-//	        pane.getChildren().add(button1);
-//
-//	}
 
-	public void printInputText(Word word, int index, Pane pane, double layoutX, double layoutY) {
+	public void printInputText(Pane pane, int index, double layoutX, double layoutY) {
 		TextField textField = new TextField();
-		textField.setText("" + word.getWordToType().getWord().charAt(index));
+		textField.setText("" + selectedWord.getWordToType().getWord().charAt(index));
 		textField.setLayoutX(layoutX);
 		textField.setLayoutY(layoutY);
 
 		textField.setMinSize(200, 200);
 		textField.setMaxSize(200, 200);
-		textField.setStyle("-fx-font-size: 8em;  -fx-font-family: Verdana; -fx-padding: 0 0 0 60;   ");
-		
-	 
-	   
+		textField.setStyle("-fx-font-size: 8em;  -fx-font-family: Verdana; -fx-padding: 0 0 0 60; ");
+		textField.setEditable(false);
+		textField.setFocusTraversable(false);
 
-		if (index == word.getLetterIndex()) {
+		if (index == selectedWord.getLetterIndex()) {
 			textField.setEditable(true);
-			textField.setText("");
+			textField.setFocusTraversable(true);
 			textField.requestFocus();
-		
-		} else {
-			textField.setEditable(false);
+			textField.setText("");
+			textField.setStyle("-fx-border-color: #0099cc; -fx-border-width: 5px; -fx-font-size: 8em;  -fx-font-family: Verdana; -fx-padding: 0 0 0 60; ");
+
+			setFieldLengthAction(textField, 1);
+			checkFieldValueAction(textField);
+
 		}
-
-		setTextLimit(textField, 1);
-
 		pane.getChildren().add(textField);
 	}
 
-	private void setTextLimit(TextField textField, int length) {
+	private void setFieldLengthAction(TextField textField, int length) {
 		textField.setOnKeyTyped(event -> {
-			String string = textField.getText();
-
-			if (string.length() >= length) {
-				textField.setText(string.substring(0, length-1));
-				textField.positionCaret(length-1);
+			String inputValue = textField.getText();
+			if (inputValue.length() < 1) {
+				return;
 			}
-			
-			textField.setStyle("-fx-border-color: #ff0000; -fx-border-width: 5px; -fx-font-size: 8em;  -fx-font-family: Verdana; -fx-padding: 0 0 0 60; ");
+			if (inputValue.length() >= length) {
+				textField.setText(inputValue.substring(0, length - 1));
+				textField.positionCaret(length - 1);
+			}
+		});
+	}
 
-			//textField.setStyle("-fx-border-color: #00ff00; -fx-border-width: 5px; -fx-font-size: 8em;  -fx-font-family: Verdana; -fx-padding: 0 0 0 60;  ");
+	private void checkFieldValueAction(TextField textField) {
+
+		Consumer<String> triggerExit = text -> {
+			LOGGER.info("Triggering exit after {}", text);
+			try {
+				Thread.sleep(500);
+			} catch (InterruptedException e1) {
+				LOGGER.error("Unhandled exception caught", e1);
+			}
+			Platform.exit();
+			System.exit(0);
+		};
+
+		textField.setOnKeyReleased(event -> {
+			String inputValue = textField.getText();
+			LOGGER.info("Checking for inputValue {}", inputValue);
+			if (!selectedWord.getLetterText().equalsIgnoreCase(inputValue)) {
+				textField.setStyle("-fx-border-color: #ff0000; -fx-border-width: 5px; -fx-font-size: 8em;  -fx-font-family: Verdana; -fx-padding: 0 0 0 60; ");
+				return;
+			}
+
+			textField.setStyle("-fx-border-color: #00ff00; -fx-border-width: 5px; -fx-font-size: 8em;  -fx-font-family: Verdana; -fx-padding: 0 0 0 60; ");
+
+			String fileUrl = selectedWord.getWordToType().getSoundFilePath();
+			File audioFile = new File(fileUrl);
+			Media audio = new Media(audioFile.toURI().toString());
+			mediaplayer = new MediaPlayer(audio);
+			mediaplayer.play();
+			mediaplayer.setOnEndOfMedia(new Runnable() {
+				@Override
+				public void run() {
+					mediaplayer.stop();
+
+					triggerExit.accept(selectedWord.getWordToType().getWord());
+				}
+			});
 		});
 	}
 

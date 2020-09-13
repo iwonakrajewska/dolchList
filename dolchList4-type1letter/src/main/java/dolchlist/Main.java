@@ -3,7 +3,6 @@ package dolchlist;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import dolchlist.config.ButtonConfig;
 import dolchlist.config.DolchListConfig;
 import dolchlist.config.PropertyLoader;
 import dolchlist.config.StageBuilder;
@@ -42,7 +41,7 @@ public class Main extends Application {
 			Pane pane = new Pane();
 			root.setCenter(pane);
 
-			stageBuilder.paintStageObjects(pane, wordToType);			
+			stageBuilder.paintStageObjects(pane, wordToType);
 
 			primaryStage.initStyle(StageStyle.UNDECORATED);
 			primaryStage.setResizable(true);
@@ -56,7 +55,7 @@ public class Main extends Application {
 			primaryStage.show();
 
 			stageBuilder.readInitialInstruction(propertyLoader, wordToType);
-			
+
 			scene.setOnMousePressed(new EventHandler<MouseEvent>() {
 				@Override
 				public void handle(MouseEvent event) {
