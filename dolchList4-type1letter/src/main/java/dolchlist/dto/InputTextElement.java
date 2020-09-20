@@ -7,6 +7,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
@@ -45,6 +47,7 @@ public class InputTextElement {
 
 			setFieldLengthAction(textField, 1);
 			checkFieldValueAction(textField);
+			selectedWord.setFieldWithFocus(textField);
 
 		}
 		pane.getChildren().add(textField);
@@ -85,7 +88,8 @@ public class InputTextElement {
 			}
 
 			textField.setStyle("-fx-border-color: #00ff00; -fx-border-width: 5px; -fx-font-size: 8em;  -fx-font-family: Verdana; -fx-padding: 0 0 0 60; ");
-
+			selectedWord.setExitEnabled(true);
+			
 			String fileUrl = selectedWord.getWordToType().getSoundFilePath();
 			File audioFile = new File(fileUrl);
 			Media audio = new Media(audioFile.toURI().toString());
@@ -100,6 +104,14 @@ public class InputTextElement {
 				}
 			});
 		});
+		
+		textField.focusedProperty().addListener(new ChangeListener<Boolean>() {
+			@Override
+			public void changed(ObservableValue<? extends Boolean> ov, Boolean onHidden, Boolean onShown) {
+				LOGGER.info("textField focus property changed");
+				selectedWord.getFieldWithFocus().requestFocus();
+			}
+		});
 	}
-
+	
 }

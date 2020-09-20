@@ -8,8 +8,13 @@ import dolchlist.config.PropertyLoader;
 import dolchlist.config.StageBuilder;
 import dolchlist.dto.Word;
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
@@ -62,9 +67,39 @@ public class Main extends Application {
 					stageBuilder.readInitialInstruction(propertyLoader, wordToType);
 				}
 			});
+
+			handleSideBehaviour(primaryStage);
+
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);
 		}
+	}
+
+	private void handleSideBehaviour(Stage primaryStage) {
+		primaryStage.addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
+			@Override
+			public void handle(KeyEvent event) {
+				if (event.getCode().equals(KeyCode.ESCAPE)) {
+					if (wordToType.isExitEnabled()) {
+						LOGGER.info("Consuming Escape on stage, exiting");
+						Platform.exit();
+						System.exit(0);
+					}
+				}
+			}
+		});
+
+		primaryStage.focusedProperty().addListener(new ChangeListener<Boolean>() {
+			@Override
+			public void changed(ObservableValue<? extends Boolean> ov, Boolean onHidden, Boolean onShown) {
+				LOGGER.info("focus property changed");
+				primaryStage.setAlwaysOnTop(false);
+				primaryStage.setAlwaysOnTop(true);
+				primaryStage.toFront();
+				wordToType.getFieldWithFocus().requestFocus();
+			}
+		});
+
 	}
 
 }

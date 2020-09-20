@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 
 import dolchlist.config.DolchListConfig;
 import lombok.Data;
+import javafx.scene.control.TextField;
 
 @Data
 public class Word {
@@ -17,6 +18,8 @@ public class Word {
 	private DolchListElement wordToType;
 	private int letterIndex;
 	private String letterText;
+	private boolean isExitEnabled = false;
+	private TextField fieldWithFocus;
 
 	public void assignWord(DolchListConfig dolchListConfig) {
 		this.wordToType = pickRandomWord(dolchListConfig);
