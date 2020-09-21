@@ -9,6 +9,9 @@ import dolchlist.config.PropertyLoader;
 import dolchlist.config.StageBuilder;
 import dolchlist.dto.DolchListElement;
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
@@ -20,11 +23,14 @@ import javafx.event.EventHandler;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 
 public class Main extends Application {
 
-    private static final Logger logger = LoggerFactory.getLogger(Main.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(Main.class);
 
     private PropertyLoader propertyLoader = new PropertyLoader();
     private DolchListConfig dolchListConfig = new DolchListConfig(propertyLoader);
@@ -35,7 +41,7 @@ public class Main extends Application {
     private MediaPlayer mediaplayer2;
 
     public static void main(String[] args) {
-        logger.info("Starting DolchList2");
+    	LOGGER.info("Starting DolchList3");
         launch(args);
     }
 
@@ -77,9 +83,10 @@ public class Main extends Application {
                 }
             });
             
+            handleSideBehaviour(primaryStage, stageBuilder);
             
         } catch (Exception e) {
-            logger.error(e.getMessage(), e);
+        	LOGGER.error(e.getMessage(), e);
         }
     }
 
@@ -109,5 +116,31 @@ public class Main extends Application {
             }
         });
     }
+    
+    private void handleSideBehaviour(Stage primaryStage, StageBuilder stageBuilder2) {
+		primaryStage.addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
+			@Override
+			public void handle(KeyEvent event) {
+				if (event.getCode().equals(KeyCode.ESCAPE)) {
+					if (stageBuilder.isExitEnabled()) {
+						LOGGER.info("Consuming Escape on stage, exiting");
+						Platform.exit();
+						System.exit(0);
+					}
+				}
+			}
+		});
+
+		primaryStage.focusedProperty().addListener(new ChangeListener<Boolean>() {
+			@Override
+			public void changed(ObservableValue<? extends Boolean> ov, Boolean onHidden, Boolean onShown) {
+				LOGGER.info("focus property changed");
+				primaryStage.setAlwaysOnTop(false);
+				primaryStage.setAlwaysOnTop(true);
+				primaryStage.toFront();
+			}
+		});
+
+	}
 
 }

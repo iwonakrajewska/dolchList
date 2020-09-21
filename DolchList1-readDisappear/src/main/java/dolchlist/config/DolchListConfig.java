@@ -27,6 +27,7 @@ public class DolchListConfig {
 	private Integer sizeY;
 	private String soundsFolder;
 	private Integer iterations;
+	private boolean isExitEnabled = false;
 
 	public DolchListConfig() {
 		readProperties();
@@ -90,4 +91,12 @@ public class DolchListConfig {
 		return iterations;
 	}
 
+	public boolean isExitEnabled() {
+		return isExitEnabled;
+	}
+
+	public void setExitEnabled(boolean isExitEnabled) {
+		this.isExitEnabled = isExitEnabled;
+	}
+    
 }

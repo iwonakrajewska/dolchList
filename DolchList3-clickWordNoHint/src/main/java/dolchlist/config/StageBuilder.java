@@ -20,6 +20,7 @@ public class StageBuilder {
     Map<Button, ButtonElement> buttonMap = new HashMap();
     private Random randomGenerator = new Random();
     private ButtonElement correctButton;
+	private boolean isExitEnabled = false;
 
     public void addButton(Button button) {
         buttonMap.put(button, new ButtonElement(button));
@@ -52,11 +53,21 @@ public class StageBuilder {
 
     public void addLabel(Pane pane) {
 //        Label label1 = new Label("Find:  " + correctButton.getDolchListElement().getWord());
-        Label label1 = new Label("Find:  " );
+        Label label1 = new Label("Find:   " );
         label1.setLayoutX(200);
         label1.setLayoutY(50);
         label1.setStyle("-fx-font-size: 5em;  -fx-font-family: Verdana; ");
         pane.getChildren().add(label1);
 
     }
+
+	public boolean isExitEnabled() {
+		return isExitEnabled;
+	}
+
+	public void setExitEnabled(boolean isExitEnabled) {
+		this.isExitEnabled = isExitEnabled;
+	}
+    
+    
 }

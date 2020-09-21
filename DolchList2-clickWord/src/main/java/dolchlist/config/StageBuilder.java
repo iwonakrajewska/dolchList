@@ -1,6 +1,3 @@
-/*
- * Copyright (c) 2020 Mastercard. All rights reserved.
- */
 
 package dolchlist.config;
 
@@ -20,6 +17,7 @@ public class StageBuilder {
     Map<Button, ButtonElement> buttonMap = new HashMap();
     private Random randomGenerator = new Random();
     private ButtonElement correctButton;
+	private boolean isExitEnabled = false;
 
     public void addButton(Button button) {
         buttonMap.put(button, new ButtonElement(button));
@@ -58,4 +56,14 @@ public class StageBuilder {
         pane.getChildren().add(label1);
 
     }
+    
+
+	public boolean isExitEnabled() {
+		return isExitEnabled;
+	}
+
+	public void setExitEnabled(boolean isExitEnabled) {
+		this.isExitEnabled = isExitEnabled;
+	}
+    
 }

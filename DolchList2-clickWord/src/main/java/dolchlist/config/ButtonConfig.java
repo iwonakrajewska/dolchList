@@ -70,7 +70,8 @@ public class ButtonConfig {
                 if (buttonElement.isCorrect()) {
 
                     button1.setStyle("-fx-border-color: #00ff00; -fx-border-width: 5px; -fx-font-size: 10em;  -fx-font-family: Verdana;  ");
-
+                    stageBuilder.setExitEnabled(true);
+                    
                     String fileUrl = buttonElement.getDolchListElement().getFilePath();
                     File audioFile = new File(fileUrl);
                     Media audio = new Media(audioFile.toURI().toString());

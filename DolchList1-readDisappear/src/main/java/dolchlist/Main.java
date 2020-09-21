@@ -7,10 +7,16 @@ import org.slf4j.LoggerFactory;
 
 import dolchlist.config.DolchListConfig;
 import dolchlist.config.DolchListElement;
+
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Task;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
@@ -24,7 +30,7 @@ import javafx.stage.StageStyle;
 
 public class Main extends Application {
 
-	private static final Logger logger = LoggerFactory.getLogger(Main.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(Main.class);
 
 	public static void main(String[] args) {
 		launch(args);
@@ -32,7 +38,7 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage primaryStage) {
-		logger.info("Starting DolchList1");
+		LOGGER.info("Starting DolchList1");
 
 		DolchListConfig dolchListConfig = new DolchListConfig();
 
@@ -76,9 +82,10 @@ public class Main extends Application {
 							audioFile = new File(fileUrl);
 							audio = new Media(audioFile.toURI().toString());
 							audioPlayer = new MediaPlayer(audio);
-							logger.info("Playing: {}", w.getWord());
+							LOGGER.info("Playing: {}", w.getWord());
 							a = w.getWord();
 							audioPlayer.play();
+							dolchListConfig.setExitEnabled(true);
 						}
 
 						if (i == 1) {
@@ -91,7 +98,7 @@ public class Main extends Application {
 							audioPlayer.stop();
 							i = -1;
 							if (currentIteration >= dolchListConfig.getIterations()) {
-								logger.info("Iterations reached limit. Finish.");
+								LOGGER.info("Iterations reached limit. Finish.");
 								Platform.exit();
 								System.exit(0);
 							}
@@ -112,7 +119,7 @@ public class Main extends Application {
 			if (dolchListConfig.pickRandomWord() != null) {
 				th.start();
 			} else {
-				logger.warn("No sound files found in {}", dolchListConfig.getSoundsFolder());
+				LOGGER.warn("No sound files found in {}", dolchListConfig.getSoundsFolder());
 				text1.setText("No mp3 file found in:");
 				text2.setText(dolchListConfig.getSoundsFolder());
 			}
@@ -127,10 +134,40 @@ public class Main extends Application {
 			primaryStage.toFront();
 			primaryStage.show();
 
+			 handleSideBehaviour(primaryStage, dolchListConfig);
             
 		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
+			LOGGER.error(e.getMessage(), e);
 		}
 	}
+	
+	
+	  
+    private void handleSideBehaviour(Stage primaryStage, DolchListConfig dolchListConfig) {
+		primaryStage.addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
+			@Override
+			public void handle(KeyEvent event) {
+				if (event.getCode().equals(KeyCode.ESCAPE)) {
+					if (dolchListConfig.isExitEnabled()) {
+						LOGGER.info("Consuming Escape on stage, exiting");
+						Platform.exit();
+						System.exit(0);
+					}
+				}
+			}
+		});
+
+		primaryStage.focusedProperty().addListener(new ChangeListener<Boolean>() {
+			@Override
+			public void changed(ObservableValue<? extends Boolean> ov, Boolean onHidden, Boolean onShown) {
+				LOGGER.info("focus property changed");
+				primaryStage.setAlwaysOnTop(false);
+				primaryStage.setAlwaysOnTop(true);
+				primaryStage.toFront();
+			}
+		});
+
+	}
+
 
 }

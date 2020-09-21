@@ -43,7 +43,7 @@ public class StageBuilder {
 	}
 
 	private void printInstruction(Pane pane, double layoutY) {
-		Label label1 = new Label("Type:  ");
+		Label label1 = new Label("Type:    ");
 		label1.setLayoutX(LAYOUT_X);
 		label1.setLayoutY(layoutY);
 		label1.setStyle("-fx-font-size: 5em;  -fx-font-family: Verdana; ");
