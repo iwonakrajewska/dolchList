@@ -8,6 +8,7 @@ target
 
 !DolchList1-readDisappear/target/dolchList1-readDisappear.jar
 !DolchList2-clickWord/target/dolchList2-clickWord.jar
-!DolchList3-clickWordNoHint/dolchList3-clickWordNoHint.jar
-!dolchList4-type1letter/dolchList4-type1letter.jar
+!DolchList3-clickWordNoHint/target/dolchList3-clickWordNoHint.jar
+!DolchList4-type1letter/target/dolchList4-type1letter.jar
+!DolchList5-typeWord/target/dolchList5-typeWord.jar
 
